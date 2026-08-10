@@ -33,12 +33,35 @@ public class PersonServices {
     public List<Person> findAll(){
 
         List<Person> persons =  new ArrayList<Person>();
+
         for (int i = 1; i <= 10 ; i++) {
+
             Person person = mockPerson(i);
+
             persons.add(person);
         }
 
         return persons;
+    }
+
+    public Person create(Person person) {
+
+        logger.info("Creating one Person!");
+
+        return person;
+    }
+
+    public Person update(Person person) {
+
+        logger.info("Updating one Person!");
+
+        return person;
+    }
+
+    public void delete(String id) {
+
+        logger.info("Deleting one Person!");
+
     }
 
     private Person mockPerson(int i) {

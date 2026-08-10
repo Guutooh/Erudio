@@ -1,0 +1,15 @@
+services:
+  erudio-mysql:
+    image: mysql:9.7
+    container_name: erudio
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: erudio
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - erudio_mysql_data:/var/lib/mysql
+
+volumes:
+  erudio_mysql_data:
