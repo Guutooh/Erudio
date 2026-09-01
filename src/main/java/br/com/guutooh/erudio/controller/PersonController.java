@@ -16,17 +16,17 @@ public class PersonController {
     private PersonServices service;
 
     @GetMapping("/{id}")
-    public Person findById(@PathVariable String id) {
+    public Person findById(@PathVariable Long id) {
         return service.findById(id);
     }
 
     @GetMapping()
-    public List<Person>  findAll() {
+    public List<Person> findAll() {
         return service.findAll();
     }
 
 
-   @PostMapping
+    @PostMapping
     public Person create(@RequestBody Person person) {
         return service.create(person);
     }
@@ -37,7 +37,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable String id) {
+    public void delete(@PathVariable Long id) {
         service.delete(id);
     }
 }

@@ -1,10 +1,12 @@
 package br.com.guutooh.erudio.service;
 
 import br.com.guutooh.erudio.controller.PersonController;
+import br.com.guutooh.erudio.exception.ResourceNotFoundException;
 import br.com.guutooh.erudio.model.Person;
+import br.com.guutooh.erudio.repository.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
@@ -15,52 +17,52 @@ public class PersonServices {
 
     private final AtomicLong counter = new AtomicLong();
 
+    @Autowired
+    private PersonRepository repository;
+
     private Logger logger = Logger.getLogger(PersonController.class.getName());
 
-    public Person findById(String id) {
+    public Person findById(Long id) {
+
         logger.info("Finding person with id: " + id);
 
-        Person person = new Person();
-        person.setId(counter.incrementAndGet());
-        person.setFirstName("Gustavo");
-        person.setLastName("Santos");
-        person.setAddress("São paulo");
-        person.setGender("Male");
-
-        return person;
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No record found for this id: " + id));
     }
 
-    public List<Person> findAll(){
+    public List<Person> findAll() {
 
-        List<Person> persons =  new ArrayList<Person>();
+        logger.info("Finding all persons");
 
-        for (int i = 1; i <= 10 ; i++) {
-
-            Person person = mockPerson(i);
-
-            persons.add(person);
-        }
-
-        return persons;
+        return repository.findAll();
     }
 
     public Person create(Person person) {
 
         logger.info("Creating one Person!");
 
-        return person;
+        return repository.save(person);
     }
 
     public Person update(Person person) {
 
         logger.info("Updating one Person!");
 
-        return person;
+        Person entity = findById(person.getId());
+
+        entity.setFirstName(person.getFirstName());
+        entity.setLastName(person.getLastName());
+        entity.setAddress(person.getAddress());
+        entity.setGender(person.getGender());
+
+        return repository.save(entity);
     }
 
-    public void delete(String id) {
+    public void delete(Long id) {
 
         logger.info("Deleting one Person!");
+
+        findById(id);
+        repository.deleteById(id);
 
     }
 
