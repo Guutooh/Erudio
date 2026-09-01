@@ -31,8 +31,9 @@ public class PersonController {
         return service.create(person);
     }
 
-    @PutMapping
-    public Person update(@RequestBody Person person) {
+    @PutMapping("/{id}")
+    public Person update(@PathVariable Long id, @RequestBody Person person) {
+        person.setId(id);
         return service.update(person);
     }
 
