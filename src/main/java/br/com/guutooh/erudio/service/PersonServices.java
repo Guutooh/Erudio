@@ -59,7 +59,7 @@ public class PersonServices {
 
     public void delete(Long id) {
 
-        logger.info("Deleting one Person!");
+        logger.info("Deleting one Person!" + id);
 
         findById(id);
         repository.deleteById(id);
